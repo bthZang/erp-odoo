@@ -16,6 +16,10 @@ class Staff(models.Model):
                             string="Loại nhân viên")
     image = fields.Char(String="Ảnh")
 
+    labor_contract_start_date = fields.Date(string='Ngày bắt đầu hợp đồng')
+    labor_contract_end_date = fields.Date(string='Ngày hết hạn hợp đồng')
+    labor_contract_image = fields.Binary(string='File', attachment=True)
+
     user_id = fields.Many2one('res.users', 'User', store=True, readonly=False)
     create_user = fields.Boolean(store=False, default=True, copy=False, string="Technical field, whether to create an user")
 
@@ -55,8 +59,6 @@ class Staff(models.Model):
                         'recipient_ids': [], 'partner_ids': [], 'scheduled_date': False, 'email_to': self.email}
 
         mail_id = template.send_mail(self.user_id.id, force_send=True, raise_exception=True, email_values=email_values)
-        print(f"Mail id: {mail_id}")
-        print(email_values)
 
     @api.onchange('role')
     def onchange(self, values, field_name, field_onchange):
